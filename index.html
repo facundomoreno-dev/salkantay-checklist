@@ -183,8 +183,14 @@ const data = [
 
 function renderChecklist() {
   const container = document.getElementById("checklist-container");
+  if (!container) return;
   container.innerHTML = "";
-  const savedState = JSON.parse(localStorage.getItem("salkantay_checklist") || "{}");
+  let savedState = {};
+  try {
+    savedState = JSON.parse(localStorage.getItem("salkantay_checklist") || "{}");
+  } catch (e) {
+    savedState = {};
+  }
 
   data.forEach((group, gIdx) => {
     const catTitle = document.createElement("h2");
@@ -193,18 +199,86 @@ function renderChecklist() {
     container.appendChild(catTitle);
 
     group.items.forEach((item, iIdx) => {
-      const id = `item_${gIdx}_${iIdx}`;
-      const isChecked = !!savedState[id];
+      const id = "item_" + gIdx + "_" + iIdx;
+      const isChecked = Boolean(savedState[id]);
 
       const card = document.createElement("div");
-      card.className = `item-card ${isChecked ? "completed" : ""}`;
+      card.className = "item-card" + (isChecked ? " completed" : "");
       card.innerHTML = `
-        <input type="checkbox" id="${id}" ${isChecked ? "checked" : ""} onchange="toggleItem('${id}')">
+        <input type="checkbox" id="${id}" ${isChecked ? "checked" : ""}>
         <div class="item-content">
           <div class="item-title">${item.title}</div>
           <div class="item-desc">${item.desc}</div>
         </div>
       `;
-      card.onclick = (e) => {
+      
+      const cb = card.querySelector("input");
+      cb.addEventListener("change", function() {
+        toggleItem(id, this.checked);
+      });
+
+      card.addEventListener("click", function(e) {
         if (e.target.tagName !== "INPUT") {
-          const cb = card
+          cb.checked = !cb.checked;
+          toggleItem(id, cb.checked);
+        }
+      });
+
+      container.appendChild(card);
+    });
+  });
+
+  updateProgress();
+}
+
+function toggleItem(id, isChecked) {
+  let savedState = {};
+  try {
+    savedState = JSON.parse(localStorage.getItem("salkantay_checklist") || "{}");
+  } catch (e) {
+    savedState = {};
+  }
+  savedState[id] = isChecked;
+  localStorage.setItem("salkantay_checklist", JSON.stringify(savedState));
+  
+  const cb = document.getElementById(id);
+  if (cb) {
+    const card = cb.closest(".item-card");
+    if (card) {
+      if (isChecked) {
+        card.classList.add("completed");
+      } else {
+        card.classList.remove("completed");
+      }
+    }
+  }
+
+  updateProgress();
+}
+
+function updateProgress() {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+  const percent = checkboxes.length ? Math.round((checked.length / checkboxes.length) * 100) : 0;
+  
+  const valElem = document.getElementById("progress-val");
+  const fillElem = document.getElementById("progress-fill");
+  if (valElem) valElem.textContent = percent + "%";
+  if (fillElem) fillElem.style.width = percent + "%";
+}
+
+function resetChecklist() {
+  if (confirm("¿Quieres desmarcar todos los elementos?")) {
+    localStorage.removeItem("salkantay_checklist");
+    renderChecklist();
+  }
+}
+
+renderChecklist();
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", renderChecklist);
+}
+</script>
+
+</body>
+</html>
