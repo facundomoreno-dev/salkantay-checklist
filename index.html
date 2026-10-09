@@ -16,384 +16,406 @@
       --blue: #65aef7;
       --muted: #9eb0a7;
       --line: #284238;
+      --danger: #f76565;
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       background: #07110d;
       color: #fff;
-      font-family: Inter, system-ui, -apple-system, sans-serif;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
       padding: 20px;
     }
+
     .container {
-      max-width: 600px;
+      max-width: 900px;
       margin: 0 auto;
     }
-    h1 {
-      color: var(--cream);
-      font-size: 1.8rem;
-      margin-bottom: 5px;
+
+    header {
       text-align: center;
+      margin-bottom: 24px;
     }
-    p.subtitle {
+
+    header h1 {
+      color: var(--cream);
+      margin: 0 0 8px;
+      font-size: 1.8rem;
+    }
+
+    header p {
       color: var(--muted);
-      text-align: center;
-      margin-top: 0;
+      margin: 0;
       font-size: 0.95rem;
     }
-    .add-box {
+
+    .panel {
       background: var(--panel);
       border: 1px solid var(--line);
       border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 20px;
+      padding: 20px;
+      margin-bottom: 24px;
     }
-    .input-group {
+
+    .form-group {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
     }
+
     input[type="text"] {
+      flex: 1;
+      min-width: 200px;
       background: var(--panel2);
       border: 1px solid var(--line);
       color: #fff;
-      padding: 12px;
+      padding: 10px 14px;
       border-radius: 8px;
-      font-size: 1rem;
+      outline: none;
     }
-    .file-label {
+
+    input[type="text"]:focus {
+      border-color: var(--lime);
+    }
+
+    .file-btn {
       background: var(--panel2);
       border: 1px dashed var(--lime);
       color: var(--lime);
-      padding: 10px;
+      padding: 10px 14px;
       border-radius: 8px;
-      text-align: center;
       cursor: pointer;
-      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+      transition: background 0.2s;
     }
-    input[type="file"] { display: none; }
+
+    .file-btn:hover {
+      background: var(--line);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
     .btn {
       background: var(--lime);
       color: var(--ink);
+      font-weight: 600;
       border: none;
-      padding: 12px;
+      padding: 10px 18px;
       border-radius: 8px;
-      font-weight: bold;
       cursor: pointer;
-      font-size: 1rem;
       transition: opacity 0.2s;
     }
-    .btn:hover { opacity: 0.9; }
-    .btn-story {
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn-gold {
       background: var(--gold);
-      width: 100%;
-      margin-top: 20px;
-      padding: 14px;
-      font-size: 1.1rem;
+      color: var(--ink);
     }
-    .items-grid {
+
+    /* Lista de objetos */
+    .item-list {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
       gap: 12px;
-      margin-top: 15px;
     }
+
     .item-card {
+      background: var(--panel2);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .item-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 6px;
+      object-fit: cover;
       background: var(--panel);
       border: 1px solid var(--line);
-      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .item-info {
+      flex: 1;
       overflow: hidden;
+    }
+
+    .item-title {
+      font-weight: 600;
+      color: var(--cream);
+      font-size: 0.95rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .btn-del {
+      background: transparent;
+      border: none;
+      color: var(--danger);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 4px;
+    }
+
+    /* Estilos para el Preview de Instagram Story */
+    .story-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .story-card {
+      width: 340px;
+      height: 600px;
+      background: linear-gradient(180deg, #0d2218 0%, #050d09 100%);
+      border: 2px solid var(--line);
+      border-radius: 20px;
+      padding: 24px 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       position: relative;
+      overflow: hidden;
     }
-    .item-card img {
-      width: 100%;
-      height: 110px;
-      object-fit: cover;
-      background: var(--panel2);
-    }
-    .item-info {
-      padding: 8px 10px;
-      font-size: 0.85rem;
-      color: var(--cream);
-      font-weight: 500;
+
+    .story-header {
       text-align: center;
     }
-    .remove-btn {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      background: rgba(0,0,0,0.6);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 22px;
-      height: 22px;
-      cursor: pointer;
-      font-size: 0.7rem;
+
+    .story-header span {
+      background: rgba(114, 211, 127, 0.15);
+      color: var(--lime);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
-    /* Story Preview Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      z-index: 100;
-      padding: 20px;
-      overflow-y: auto;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
+
+    .story-header h2 {
+      color: var(--cream);
+      font-size: 1.4rem;
+      margin: 10px 0 4px;
     }
-    .modal.active { display: flex; }
-    canvas {
-      max-width: 100%;
-      max-height: 70vh;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-    .modal-actions {
-      margin-top: 15px;
-      display: flex;
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
       gap: 10px;
+      margin: 16px 0;
+      flex: 1;
+      align-content: start;
+      overflow-y: auto;
+    }
+
+    .story-item {
+      background: rgba(21, 45, 35, 0.8);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .story-item img {
+      width: 100%;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 6px;
+    }
+
+    .story-item p {
+      margin: 0;
+      font-size: 0.75rem;
+      color: var(--cream);
+      font-weight: 500;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .story-footer {
+      text-align: center;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+    }
+
+    .story-footer p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--gold);
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>🏔️ Salkantay Pack</h1>
-    <p class="subtitle">Sube fotos de tu equipaje y genera tu IG Story organizada</p>
+<div class="container">
+  <header>
+    <h1>🎒 Mi Equipo - Salkantay Pack</h1>
+    <p>Añade tus objetos y fotos para armar tu lista e Instagram Story</p>
+  </header>
 
-    <!-- Agregar Objeto -->
-    <div class="add-box">
-      <div class="input-group">
-        <input type="text" id="itemName" placeholder="Ej: Botas de Trekking, Cámara, Carpa...">
-        <label class="file-label" for="itemPhoto">📷 Adjuntar Foto del Objeto</label>
-        <input type="file" id="itemPhoto" accept="image/*">
-        <span id="fileName" style="font-size:0.8rem; color:var(--muted); text-align:center;"></span>
-        <button class="btn" onclick="addItem()">+ Agregar a la lista</button>
+  <div class="panel">
+    <div class="form-group">
+      <input type="text" id="itemName" placeholder="Ej: Bolsa de dormir, Botas, Cámara..." />
+      <label class="file-btn" for="itemPhoto">
+        📷 <span id="fileNameLabel">Adjuntar foto</span>
+      </label>
+      <input type="file" id="itemPhoto" accept="image/*" onchange="updateFileName(this)" />
+      <button class="btn" onclick="addItem()">Añadir Objeto</button>
+    </div>
+
+    <h3>Lista de Objetos (<span id="itemCount">0</span>)</h3>
+    <div class="item-list" id="itemList">
+      <!-- Los objetos agregados aparecerán aquí -->
+    </div>
+  </div>
+
+  <div class="panel" style="text-align: center;">
+    <h3>📸 Vista Previa para Instagram Story</h3>
+    <p style="color: var(--muted); font-size: 0.9rem;">Así se verá tu Story organizada y lista para compartir:</p>
+
+    <div class="story-container">
+      <div class="story-card" id="storyCard">
+        <div class="story-header">
+          <span>Perú Trek 2026</span>
+          <h2>SALKANTAY PACK</h2>
+        </div>
+
+        <div class="story-grid" id="storyGrid">
+          <!-- Las fotos y nombres se renderizan aquí -->
+        </div>
+
+        <div class="story-footer">
+          <p>⛰️ ¡Listo para la aventura!</p>
+        </div>
       </div>
     </div>
-
-    <!-- Galería de Objetos -->
-    <div class="items-grid" id="itemsGrid"></div>
-
-    <!-- Generar Story -->
-    <button class="btn btn-story" onclick="openStoryModal()">📸 Generar Instagram Story</button>
   </div>
+</div>
 
-  <!-- Modal / Canvas Preview -->
-  <div class="modal" id="storyModal">
-    <canvas id="storyCanvas"></canvas>
-    <div class="modal-actions">
-      <button class="btn" onclick="downloadStory()">💾 Descargar Imagen</button>
-      <button class="btn" style="background:#e05656; color:#fff;" onclick="closeStoryModal()">Cerrar</button>
-    </div>
-  </div>
+<script>
+  let items = [];
 
-  <script>
-    let items = [];
-    let currentPhotoData = null;
+  function updateFileName(input) {
+    const label = document.getElementById('fileNameLabel');
+    if (input.files && input.files[0]) {
+      label.innerText = input.files[0].name.length > 15 
+        ? input.files[0].name.substring(0, 12) + '...' 
+        : input.files[0].name;
+    } else {
+      label.innerText = 'Adjuntar foto';
+    }
+  }
 
-    // Detectar foto seleccionada
-    document.getElementById('itemPhoto').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (file) {
-        document.getElementById('fileName').innerText = file.name;
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          currentPhotoData = evt.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
+  function addItem() {
+    const nameInput = document.getElementById('itemName');
+    const photoInput = document.getElementById('itemPhoto');
+    const name = nameInput.value.trim();
+
+    if (!name) {
+      alert('Por favor, ingresa el nombre del objeto.');
+      return;
+    }
+
+    const file = photoInput.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        saveItem(name, e.target.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      // Imagen por defecto si no adjunta foto
+      saveItem(name, 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="%23284238"><rect width="100" height="100"/><text x="50%" y="50%" fill="%239eb0a7" dominant-baseline="middle" text-anchor="middle" font-size="14">Sin foto</text></svg>');
+    }
+  }
+
+  function saveItem(name, imgUrl) {
+    items.push({ id: Date.now(), name, imgUrl });
+    document.getElementById('itemName').value = '';
+    document.getElementById('itemPhoto').value = '';
+    document.getElementById('fileNameLabel').innerText = 'Adjuntar foto';
+    render();
+  }
+
+  function removeItem(id) {
+    items = items.filter(item => item.id !== id);
+    render();
+  }
+
+  function render() {
+    const itemList = document.getElementById('itemList');
+    const storyGrid = document.getElementById('storyGrid');
+    const itemCount = document.getElementById('itemCount');
+
+    itemCount.innerText = items.length;
+    itemList.innerHTML = '';
+    storyGrid.innerHTML = '';
+
+    if (items.length === 0) {
+      itemList.innerHTML = '<p style="color: var(--muted); grid-column: 1/-1;">No has agregado objetos aún.</p>';
+      storyGrid.innerHTML = '<p style="color: var(--muted); grid-column: 1/-1; text-align:center; padding-top:40px;">Agrega objetos con fotos para ver tu story.</p>';
+      return;
+    }
+
+    items.forEach(item => {
+      // Card en panel principal
+      const card = document.createElement('div');
+      card.className = 'item-card';
+      card.innerHTML = `
+        <img src="${item.imgUrl}" class="item-thumb" alt="${item.name}">
+        <div class="item-info">
+          <div class="item-title">${item.name}</div>
+          <div class="item-sub">Listo para llevar</div>
+        </div>
+        <button class="btn-del" onclick="removeItem(${item.id})">✕</button>
+      `;
+      itemList.appendChild(card);
+
+      // Card en IG Story
+      const storyItem = document.createElement('div');
+      storyItem.className = 'story-item';
+      storyItem.innerHTML = `
+        <img src="${item.imgUrl}" alt="${item.name}">
+        <p>${item.name}</p>
+      `;
+      storyGrid.appendChild(storyItem);
     });
+  }
 
-    function addItem() {
-      const nameInput = document.getElementById('itemName');
-      const name = nameInput.value.trim();
+  // Inicializar
+  render();
+</script>
 
-      if (!name) {
-        alert('Por favor escribe el nombre del objeto.');
-        return;
-      }
-
-      items.push({
-        name: name,
-        image: currentPhotoData || null
-      });
-
-      // Reset
-      nameInput.value = '';
-      document.getElementById('itemPhoto').value = '';
-      document.getElementById('fileName').innerText = '';
-      currentPhotoData = null;
-
-      renderItems();
-    }
-
-    function removeItem(index) {
-      items.splice(index, 1);
-      renderItems();
-    }
-
-    function renderItems() {
-      const grid = document.getElementById('itemsGrid');
-      grid.innerHTML = '';
-
-      items.forEach((item, idx) => {
-        const card = document.createElement('div');
-        card.className = 'item-card';
-        
-        const img = item.image ? `<img src="${item.image}" />` : `<div style="height:110px; background:var(--panel2); display:flex; align-items:center; justify-content:center; color:var(--muted); font-size:2rem;">🎒</div>`;
-
-        card.innerHTML = `
-          <button class="remove-btn" onclick="removeItem(${idx})">✕</button>
-          ${img}
-          <div class="item-info">${item.name}</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    // --- GENERADOR DE INSTAGRAM STORY (Canvas 1080x1920) ---
-    function openStoryModal() {
-      if (items.length === 0) {
-        alert('Agrega al menos un objeto antes de generar la Story.');
-        return;
-      }
-
-      const modal = document.getElementById('storyModal');
-      modal.classList.add('active');
-      drawStoryCanvas();
-    }
-
-    function closeStoryModal() {
-      document.getElementById('storyModal').classList.remove('active');
-    }
-
-    function drawStoryCanvas() {
-      const canvas = document.getElementById('storyCanvas');
-      const ctx = canvas.getContext('2d');
-
-      // Calidad IG Story: 1080 x 1920
-      canvas.width = 1080;
-      canvas.height = 1920;
-
-      // 1. Fondo Gradiente
-      const grad = ctx.createLinearGradient(0, 0, 0, 1920);
-      grad.addColorStop(0, '#07110d');
-      grad.addColorStop(0.5, '#0e241b');
-      grad.addColorStop(1, '#07110d');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 1080, 1920);
-
-      // 2. Encabezado Estético
-      ctx.fillStyle = '#ffc95b';
-      ctx.font = 'bold 38px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('SALKANTAY TREK • PERÚ', 540, 140);
-
-      ctx.fillStyle = '#f4ead7';
-      ctx.font = 'bold 64px sans-serif';
-      ctx.fillText('MY PACKING LIST', 540, 220);
-
-      ctx.fillStyle = '#72d37f';
-      ctx.font = '30px sans-serif';
-      ctx.fillText('Ready for the adventure ⛰️', 540, 270);
-
-      // Línea divisora
-      ctx.strokeStyle = '#284238';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(140, 310);
-      ctx.lineTo(940, 310);
-      ctx.stroke();
-
-      // 3. Renderizar Cuadrícula de Objetos
-      const cols = items.length > 6 ? 3 : 2; 
-      const cardWidth = cols === 3 ? 260 : 380;
-      const cardHeight = cols === 3 ? 320 : 420;
-      const gapX = cols === 3 ? 35 : 50;
-      const gapY = 40;
-
-      const totalWidth = (cols * cardWidth) + ((cols - 1) * gapX);
-      const startX = (1080 - totalWidth) / 2;
-      const startY = 360;
-
-      let loadedImages = 0;
-
-      items.forEach((item, i) => {
-        const col = i % cols;
-        const row = Math.floor(i / cols);
-
-        const x = startX + col * (cardWidth + gapX);
-        const y = startY + row * (cardHeight + gapY);
-
-        // Dibujar tarjeta (Polaroid Style)
-        ctx.fillStyle = '#10231b';
-        ctx.strokeStyle = '#284238';
-        ctx.lineWidth = 2;
-        
-        // Esquinas redondeadas para tarjeta
-        ctx.beginPath();
-        ctx.roundRect(x, y, cardWidth, cardHeight, 16);
-        ctx.fill();
-        ctx.stroke();
-
-        // Foto del ítem
-        const imgHeight = cardHeight - 80;
-        if (item.image) {
-          const img = new Image();
-          img.src = item.image;
-          img.onload = () => {
-            ctx.save();
-            ctx.beginPath();
-            ctx.roundRect(x + 12, y + 12, cardWidth - 24, imgHeight, 10);
-            ctx.clip();
-            ctx.drawImage(img, x + 12, y + 12, cardWidth - 24, imgHeight);
-            ctx.restore();
-
-            // Texto debajo
-            drawCardText(ctx, item.name, x, y + cardHeight - 30, cardWidth);
-          };
-        } else {
-          // Placeholder sin foto
-          ctx.fillStyle = '#152d23';
-          ctx.beginPath();
-          ctx.roundRect(x + 12, y + 12, cardWidth - 24, imgHeight, 10);
-          ctx.fill();
-
-          ctx.fillStyle = '#72d37f';
-          ctx.font = '48px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.fillText('🎒', x + cardWidth / 2, y + imgHeight / 2 + 15);
-
-          drawCardText(ctx, item.name, x, y + cardHeight - 30, cardWidth);
-        }
-      });
-
-      // 4. Marca de agua / Footer
-      ctx.fillStyle = '#9eb0a7';
-      ctx.font = '28px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText('📍 Cusco, Perú • Salkantay Pass 4,630m', 540, 1840);
-    }
-
-    function drawCardText(ctx, text, x, y, width) {
-      ctx.fillStyle = '#f4ead7';
-      ctx.font = 'bold 28px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(text, x + width / 2, y, width - 20);
-    }
-
-    function downloadStory() {
-      const canvas = document.getElementById('storyCanvas');
-      const link = document.createElement('a');
-      link.download = 'Salkantay-Pack-Story.png';
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-    }
-  </script>
 </body>
 </html>
