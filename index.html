@@ -226,6 +226,7 @@
           <input type="text" id="authorName" placeholder="Ej. Camila Explorer" required>
         </div>
 
+        <div class="form-group" id="gearPhotosPicker"><label>🎒 Fotos de mi checklist</label><p style="color:#94a3b8;font-size:13px">Elegí una foto que ya cargaste en el checklist, sin volver a subirla.</p><div id="gearPhotoGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:12px"></div><p id="gearPhotoHelp" style="color:#94a3b8;font-size:13px"></p></div>
         <div class="form-group">
           <label>Adjuntar Foto de tu Experiencia</label>
           <div class="file-input-wrapper">
@@ -311,5 +312,12 @@
     });
   </script>
 
+<script>
+(function(){
+function openDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open('salkantay-gear-photos',1);r.onupgradeneeded=()=>{if(!r.result.objectStoreNames.contains('photos'))r.result.createObjectStore('photos',{keyPath:'id'})};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+async function loadPhotos(){const grid=document.getElementById('gearPhotoGrid'),help=document.getElementById('gearPhotoHelp');try{const db=await openDB();const photos=await new Promise((resolve,reject)=>{const req=db.transaction('photos','readonly').objectStore('photos').getAll();req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)});db.close();if(!photos.length){help.textContent='Todavía no hay fotos. Cargalas desde tu checklist en este mismo navegador.';return}for(const rec of photos){const url=URL.createObjectURL(rec.blob);const btn=document.createElement('button');btn.type='button';btn.style.cssText='background:#1e293b;color:#fff;border:2px solid #334155;border-radius:12px;padding:5px;cursor:pointer';const img=document.createElement('img');img.src=url;img.alt=rec.name;img.style.cssText='width:100%;height:95px;object-fit:cover;border-radius:8px';const cap=document.createElement('span');cap.textContent=rec.name;cap.style.cssText='display:block;font-size:12px;overflow-wrap:anywhere';btn.append(img,cap);btn.addEventListener('click',()=>{const reader=new FileReader();reader.onload=()=>{uploadedImageBase64=reader.result;photoPreview.src=reader.result;photoPreview.style.display='block';photoInput.required=false;fileLabel.querySelector('span').textContent='✓ Foto elegida: '+rec.name;grid.querySelectorAll('button').forEach(b=>b.style.borderColor='#334155');btn.style.borderColor='#84cc16'};reader.readAsDataURL(rec.blob)});grid.appendChild(btn)}help.textContent='Las fotos se guardan en este navegador; no se publican en GitHub.'}catch(err){help.textContent='No se pudieron leer las fotos: '+err.message}}
+loadPhotos();
+})();
+</script>
 </body>
 </html>
